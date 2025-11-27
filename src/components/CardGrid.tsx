@@ -1,0 +1,46 @@
+// src/components/CardGrid.tsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+type Item = { 
+  id: string; 
+  name: string; 
+  image: string; 
+  to: string; 
+  subtitle?: string;   // ✅ optional subtitle field
+};
+
+export default function CardGrid({ items }: { items: Item[] }) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+      {items.map((item) => (
+        <Link
+          key={item.id}
+          to={item.to}
+          className="group block rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow hover:shadow-lg transition"
+        >
+          {/* 👇 Image container fixed to 16:9 ratio */}
+          <div className="aspect-video w-full overflow-hidden">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+
+          {/* 👇 Text centered */}
+          <div className="p-4 text-center">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {item.name}
+            </h3>
+            {item.subtitle && (
+              <p className="text-sm font-light text-gray-500">
+                {item.subtitle}
+              </p>
+            )}
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
